@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kid verification</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.3/dist/umd/supabase.min.js"></script>
+    <style>
+        .hidden { display: none; }
+        .error { color: red; }
+        .success { color: green; }
+    </style>
+</head>
+<body>
+    <h1>Kid verification:</h1>
+    <form id="emailForm">
+        <label for="email">Enter your email:</label>
+        <input type="email" id="email" name="email" required>
+        <button type="submit">Submit</button>
+    </form>
+    <p id="message" class="hidden"></p>
+
+    <script>
+        // Initialize Supabase
+        const supabase = window.supabase.createClient('https://dvsoyesscauzsirtjthh.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR2c295ZXNzY2F1enNpcnRqdGhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTQzNTU4NDQsImV4cCI6MjAyOTkzMTg0NH0.3HoGdobfXm7-SJtRSVF7R9kraDNHBFsiEaJunMjwpHk');
+
+        // Function to classify email
+        function classifyEmail(email) {
+            // Extract the part before the "@" symbol
+            const localPart = email.split('@')[0];
+
+            // Check if there are at least 3 numbers in the local part
+            const numbers = localPart.match(/\d/g); // Find all numbers
+            return numbers && numbers.length >= 3; // Check if at least 3
+        }
+
+        // Handle form submission
+        document.getElementById('emailForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const isKid = classifyEmail(email);
+            const messageElement = document.getElementById('message');
+
+            // Save the email to Supabase 'quiz' table
+            const { error } = await supabase.from('quiz').insert([{ email: email }]);
+
+            if (error) {
+                messageElement.innerText = "Error saving to Supabase.";
+                messageElement.className = 'error';
+                messageElement.classList.remove('hidden');
+                return;
+            }
+
+            // Display message based on the user's classification
+            if (isKid) {
+                messageElement.innerText = "Success: You are classified as a kid. You can proceed. To: https://zealous-meadow-04d0ae41e.5.azurestaticapps.net/mnlimited";
+                messageElement.className = 'success';
+            } else {
+                messageElement.innerText = "Error: You are not classified as a kid.";
+                messageElement.className = 'error';
+            }
+            messageElement.classList.remove('hidden');
+        });
+    </script>
+</body>
+</html>
