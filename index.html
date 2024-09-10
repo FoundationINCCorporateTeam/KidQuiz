@@ -82,13 +82,15 @@
     </form>
 
     <script>
-        function checkKid() {
-            const kid = localStorage.getItem("iskid");
-            if kid == "true" {
-                window.location.href = "https://zealous-meadow-04d0ae41e.5.azurestaticapps.net/mnlimied"
-            } else {
-            }
-        };
+function checkKid() {
+    const kid = localStorage.getItem("iskid");
+    if (kid == "true") {
+        window.location.href = "https://zealous-meadow-04d0ae41e.5.azurestaticapps.net/mnlimied";
+    } else {
+        // Optional: Add code here for the else case
+    }
+}
+
         // Initialize Supabase
         const supabase = window.supabase.createClient(
             'https://dvsoyesscauzsirtjthh.supabase.co',
