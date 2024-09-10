@@ -82,6 +82,13 @@
     </form>
 
     <script>
+        function checkKid() {
+            const kid = localStorage.getItem("iskid");
+            if kid == "true" {
+                window.location.href = "https://zealous-meadow-04d0ae41e.5.azurestaticapps.net/mnlimied"
+            } else {
+            }
+        };
         // Initialize Supabase
         const supabase = window.supabase.createClient(
             'https://dvsoyesscauzsirtjthh.supabase.co',
@@ -118,11 +125,13 @@
 
             // Display message based on the user's classification
             if (isKid) {
-                messageElement.innerText = "Success: You are classified as a kid. You can proceed. To: https://zealous-meadow-04d0ae41e.5.azurestaticapps.net/mnlimited";
+                messageElement.innerHtml = "<p>Success: You are classified as a kid. You can proceed. To: <a href='https://zealous-meadow-04d0ae41e.5.azurestaticapps.net/mnlimited'>MN Games</a></p>";
                 messageElement.className = 'success';
+                localStorage,setItem("iskid", "true");
             } else {
                 messageElement.innerText = "Error: You are not classified as a kid.";
                 messageElement.className = 'error';
+                localStorage.setItem("iskid", "false");
             }
             messageElement.classList.remove('hidden');
         });
